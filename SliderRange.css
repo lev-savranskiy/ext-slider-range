@@ -1,0 +1,57 @@
+
+.x-slider-range .x-slider-thumb,
+.x-slider-range .x-slider-thumb.x-slider-thumb-over,
+.x-slider-range .x-slider-thumb.x-slider-thumb-drag  {
+    cursor: pointer;
+    height: 68px;
+    width: 25px;
+    background-position: 5px;
+    background-image:url(slider-thumb.png);
+    z-index: 10000;
+}
+.x-masked .x-slider-range .x-slider-thumb {
+    z-index: 1;
+}
+
+.x-slider-range .x-slider-horz,
+.x-slider-range .x-slider-horz .x-slider-end,
+.x-slider-range .x-slider-horz .x-slider-inner {
+    height: 28px;
+
+    background-image: none;
+    background-color: #eee;
+    text-align: center;
+
+}
+
+.x-slider-range .x-slider-thumb.x-item-disabled,
+.x-slider-range .x-slider-thumb.x-slider-thumb-over.x-item-disabled,
+.x-slider-range .x-slider-thumb.x-slider-thumb-drag.x-item-disabled {
+    background-position: 8px -25px !important;
+    /*background-size: 1px auto;*/
+    /*background-image:url(slider-thumb-disabled.png);*/
+    cursor: default;
+}
+
+.x-slider-range.x-item-disabled .x-slider.x-form-field {
+    opacity: 1;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+}
+
+.x-slider-range .x-slider-range-header-odd,
+.x-slider-range .x-slider-range-header-even {
+    position: absolute;
+    height: 28px;
+    line-height: 28px;
+    background-color:#eee;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 9px;
+    overflow: hidden;
+    /*border: 1px red solid;*/
+}
+
+.x-slider-range .x-slider-range-header-even {
+    background-color:#ccc;
+
+}

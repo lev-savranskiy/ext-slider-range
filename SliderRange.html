@@ -1,0 +1,183 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Ext.ux.slider.Ranges extension</title>
+    <link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext/gpl/4.2.1/resources/css/ext-all.css"/>
+    <script type="text/javascript" src="http://cdn.sencha.io/ext/gpl/4.2.1/ext-all.js"></script>
+
+    <script type="text/javascript" src="SliderRange.js"></script>
+    <link rel="stylesheet" type="text/css" href="SliderRange.css"/>
+
+
+    <script type="text/javascript" src="SliderRangeExample.js"></script>
+    <link rel="stylesheet" type="text/css" href="SliderRangeExample.css"/>
+
+
+
+</head>
+<body>
+<div>
+<h1>The Ext.ux.slider.Ranges plugin</h1>
+</div>
+<h2>Disabled</h2>
+<div id="disabled-slider"></div>
+<div style="clear: both;"></div>
+
+
+<h2>Minimal configuration</h2>
+<div id="minimal-slider"></div>
+<div id="info1"></div>
+<div style="clear: both;"></div>
+
+<h2>Integration with a long grid, custom headers, maxValue <span id="maxValue1"></span>, minRange <span id="minRange1"></span></h2>
+<div id="custom-slider" ></div>
+<div id="grid"></div>
+<div style="clear: both;"></div>
+<div id="info"></div>
+
+
+    <div class="description">
+
+        <h3>Overview:</h3>
+        <ol>
+            <li> Extends <a href="http://docs.sencha.com/extjs/4.2.1/#!/api/Ext.slider.Multi" target="_blank">Ext.slider.Multi</a>
+            </li>
+            <li>
+                Allows to set and get ranges in grid with slider without resizing.
+            </li>
+            <li>
+                Each range has dynamically rebuilt header (odd/even background supported).
+            </li>
+            <li>
+                Each range is constrained to min length (default 1).
+            </li>
+            <li>Discuss at <a href="http://www.sencha.com/forum/showthread.php?289057-The-Ext.ux.slider.Ranges-plugin">Sencha Forum</a></li>
+            <li>See <a href="http://wap7.ru/folio/">author`s portfolio</a> for more js stuff</li>
+
+
+
+        </ol>
+
+        <h3 style="margin-top: 15px;"> API & Styling:</h3>
+
+        <ol>
+            <li>Download <a href="SliderRange.js" target="_blank">SliderRange.js</a>, <a href="SliderRange.css" target="_blank">SliderRange.css</a> and <a href="slider-thumb.png" target="_blank">slider-thumb.png</a></li>
+             <!--<li>Default sizes: <pre>Assuming  slider-thumb {17 x 68}px; header {dynamic width x 28}px; slider-thumb {17 x 68}px; </pre> <br />-->
+             <li>Default sizes: <pre> slider-thumb height 68px =  header height 28px +  column height <span id="colHeight"></span>px; </pre> <br />
+           You might need to match slider-thumb image height with real table dimension.<br />
+           Explore simple styling example for #minimal-slider-demo in <a href="SliderRangeExample.js" target="_blank">SliderRangeExample.js</a> and <a href="SliderRangeExample.css" target="_blank">SliderRangeExample.css</a> to see how it is done </li>
+
+            <li>All  <a href="http://docs.sencha.com/extjs/4.2.1/#!/api/Ext.slider.Multi" target="_blank">Ext.slider.Multi</a>  config properties available (except  <i>clickToChange</i>,  <i>vertical</i>)</li>
+
+            <li><img src="http://docs.sencha.com/extjs/4.2.1/member-icons/cfg.png"/>Property  <i>values</i> (array) <br />
+                <ul>
+                    <li><b>required</b></li>
+                    <li>If any of initial values is out of {minValue maxValue} range - component will not work properly.</li>
+                </ul>
+            </li>
+            <li><img src="http://docs.sencha.com/extjs/4.2.1/member-icons/cfg.png"/>Property <i>width</i> (number)
+                <ul>
+                    <li>default is 100%</li>
+                    <li><b>required</b> if used as a grid header. Calculated as (maxValue - minValue + 1) * columnWidth</li>
+                </ul>
+
+            </li>
+
+            <li><img src="http://docs.sencha.com/extjs/4.2.1/member-icons/cfg.png"/>Property <i>generateTitle</i>  (function)</li>
+                <pre>
+                //generateTitle default
+                generateTitle: function (n) {
+                return "Region " + n;
+                },
+                  </pre>
+
+
+            <li><img src="http://docs.sencha.com/extjs/4.2.1/member-icons/cfg.png"/>Property <i>minRange</i> (number) -   default  1, minimum 1</li>
+            <li><img src="http://docs.sencha.com/extjs/4.2.1/member-icons/cfg.png"/>Property <i>minValue</i> (number) -   default  1, minimum 0</li>
+            <li><img src="http://docs.sencha.com/extjs/4.2.1/member-icons/cfg.png"/>Property <i>maxValue</i> (number) -   default  100, minimum {minValue + minRange}</li>
+            <li><img src="http://docs.sencha.com/extjs/4.2.1/member-icons/method.png"/>Method <i>getRanges</i> (function) - returns array of range obects</li>
+            <li><img src="http://docs.sencha.com/extjs/4.2.1/member-icons/method.png"/>Method <i>getRangesArr</i> (function) - returns array of ranges as numbers (odd- "from"/ even "to")</li>
+
+            <pre>
+
+                // minimal configuration
+                 var cmp = Ext.create('Ext.ux.slider.Ranges', {
+                    values: [20, 40, 80]
+                });
+
+
+                // full configuration
+                var cmp = Ext.create('Ext.ux.slider.Ranges', {
+                    width: <span id="width"></span>,
+                    maxValue: <span id="maxValue"></span>,
+                    minValue: <span id="minValue"></span>,
+                    minRange: <span id="minRange"></span>,
+                    generateTitle:  function(n){
+                        var title;
+                        if (n % 2 === 0){
+                            title = "Region " + Math.ceil(n / 2) ;
+                        }else{
+                            title = "Region " + Math.ceil(n / 2) ;
+                        }
+                        return title;
+                    },
+                    values: [20, 40, 80],
+                    renderTo: 'custom-slider'
+                });
+
+
+                //get ranges
+                cmp.getRanges();
+
+                 [
+                    {
+                    "range": "Range 1",
+                    "from": 1,
+                    "to": 20,
+                    "length": 20
+                    },
+                    {
+                    "range": "Range 2",
+                    "from": 21,
+                    "to": 40,
+                    "length": 20
+                    },
+                    {
+                    "range": "Range 3",
+                    "from": 41,
+                    "to": 80,
+                    "length": 40
+                    },
+                    {
+                    "range": "Range 4",
+                    "from": 81,
+                    "to": 100,
+                    "length": 20
+                    },
+                ];
+
+                //get ranges Array
+                cmp.getRangesArr();
+                [1, 20, 21, 40, 41, 80, 81, 100]
+
+                //listen to dragend event
+                cmp.on('dragend',
+                    function () {
+                        //do something
+                    }
+                );
+
+            </pre>
+
+
+        </ol>
+    </div>
+
+
+
+
+
+</body>
+</html>
